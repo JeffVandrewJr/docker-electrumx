@@ -1,9 +1,9 @@
 FROM python:3.7-alpine3.7
-LABEL maintainer="Luke Childs <lukechilds123@gmail.com>"
 
 COPY ./bin /usr/local/bin
 COPY ./VERSION /tmp
 
+RUN apk add --no-cache tini
 RUN VERSION=$(cat /tmp/VERSION) && \
     chmod a+x /usr/local/bin/* && \
     apk add --no-cache git build-base openssl && \
@@ -28,4 +28,5 @@ WORKDIR /data
 
 EXPOSE 50001 50002
 
+ENTRYPOINT ["tini"]
 CMD ["init"]
